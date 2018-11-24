@@ -40,10 +40,6 @@ window calling it. I.e. it won't work with a prompt asking you to
 confirm/cancel something, or to say «ok». It should work with the
 browser.
 
-## TODO:
-I don't know how to detect whether a window is already closed or
-not. Thus I can't properly clean unused windows. There is an eternal
-pointer to them. 
 
 ## Advice
 The most standard windows name are:
@@ -55,16 +51,17 @@ The most standard windows name are:
 * Preferences
 
 ## Version 2.0
-Please go download «Multiple 'Add' and 'Browser' Windows, with addon numbers».
+Please use add-on [Multiple 'Add' and 'Browser' Windows, with addon
+numbers](https://ankiweb.net/shared/info/969743069) instead.
 ## Links, licence and credits
 
 Key         |Value
 ------------|-------------------------------------------------------------------
 Copyright   | Arthur Milchior <arthur@milchior.fr>
 Based on    | Anki code by Damien Elmes <anki@ichi2.net>
-Requested by|
-Original idea by |
+Requested by| ijgnord on [reddit](https://www.reddit.com/r/Anki/comments/9z4fuv/do_you_want_miss_some_addons_you_loved_in_anki_20/ea6f2lw/)
+Original idea by | Webventure, addon number [969743069](https://ankiweb.net/shared/info/969743069)
 License     | GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
 Source in   | https://github.com/Arthur-Milchior/anki-Multiple-Windows
-Addon number| [NNNNNNNNNNNN](https://ankiweb.net/shared/info/NNNNNNNNNNNN)
+Addon number| [354407385](https://ankiweb.net/shared/info/354407385)
 

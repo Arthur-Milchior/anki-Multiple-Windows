@@ -3,6 +3,7 @@
 # encoding: utf8
 # License: GNU GPL, version 3 or later; http://www.gnu.org/copyleft/gpl.html
 # Feel free to contribute to this code on https://github.com/Arthur-Milchior/anki-Multiple-Windows
+# Add-on number 354407385 https://ankiweb.net/shared/info/354407385
 import aqt
 import sip
 from inspect import stack
@@ -127,11 +128,8 @@ class DialogManagerMultiple(aqt.DialogManager):
             onsuccess()
             return
 
-        # ask all windows to close and await a reply
-        # for (name,instances) in self._openDialogs.items():
-        #     for instance in instances:
         for instance in self._openDialogs:
-            if not sip.isdeleted(instance):
+            if not sip.isdeleted(instance):#It should be useless. I prefer to keep it to avoid erros
                 if getattr(instance, "silentlyClose", False):
                     instance.close()
                     callback()
