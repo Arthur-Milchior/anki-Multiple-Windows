@@ -4,9 +4,11 @@
 # License: GNU GPL, version 3 or later; http://www.gnu.org/copyleft/gpl.html
 # Feel free to contribute to this code on https://github.com/Arthur-Milchior/anki-Multiple-Windows
 import aqt
+import sip
+from inspect import stack
 
 def debug(t):
-    print(t)
+    #print(t)
     pass
 
 def shouldBeMultiple(name):
@@ -18,9 +20,19 @@ def shouldBeMultiple(name):
     userOption = aqt.mw.addonManager.getConfig(__name__)
     if "multiple" not in userOption:
         userOption["multiple"]={"default": True}
+        debug(f"""Adding "multiple" to userOption""")
         aqt.mw.addonManager.writeConfig(__name__,userOption)
     multipleOption = userOption["multiple"]
-    return multipleOption.get(name,multipleOption.get("default",True))
+    debug(f"""multipleOption is {multipleOption}""")
+    if name in multipleOption:
+        debug(f"""{name} in multipleOption, its value is {multipleOption[name]}""")
+        return multipleOption[name]
+    elif "default" in multipleOption:
+        debug(f"""Not {name} but "default" in multipleOption, its value is {multipleOption["default"]}""")
+        return multipleOption["default"]
+    else:
+        debug(f"""Not {name} nor "default" in multipleOption. Returning True""")
+        return  True
 
 
 class DialogManagerMultiple(aqt.DialogManager):
@@ -40,7 +52,7 @@ class DialogManagerMultiple(aqt.DialogManager):
             DialogManagerMultiple._dialogs= oldDialog._dialogs
         super().__init__()
     
-    _openDialogs = dict()
+    _openDialogs = list()
     def open(self,name,*args):
         """Open a new window, with name and args. 
     
@@ -62,18 +74,27 @@ class DialogManagerMultiple(aqt.DialogManager):
         debug(f"Calling openMany({name},{args})")
         (creator, _) = self._dialogs[name]
         instance = creator(*args)
-        if name not in self._openDialogs:
-            self._openDialogs[name]=set()
-        self._openDialogs[name].add(instance)
+        self._openDialogs.append(instance)
         return instance
 
-    def markClosed(self, name):
-        """Window name is now considered as closed. 
+    def markClosedMultiple(self):
+        debug(f"markClosedMultiple({self})")
+        caller = stack()[2].frame.f_locals['self']
+        if caller in self._openDialogs:
+            debug(f"caller found")
+            self._openDialogs.remove(caller)
+        else:
+            debug(f"caller not found")
 
-        Don't check whether it is actually true."""
+    def markClosed(self, name):
+        """Remove the window of windowName from the set of windows. """
+        # If it is a window of kind single, then call super
+        # Otherwise, use inspect to figure out which is the caller
         debug(f"Calling markClosed({name})")
-        self._openDialogs[name] = set()
-        super().markClosed(name)
+        if shouldBeMultiple(name):
+            self.markClosedMultiple()
+        else:
+            super().markClosed(name)
 
     def allClosed(self):
         """
@@ -81,10 +102,7 @@ class DialogManagerMultiple(aqt.DialogManager):
         closed.
         """
         debug(f"Calling allClosed()")
-        for name in self._openDialogs:
-            if self._openDialogs[name]:
-                return False
-        return super().allClosed()
+        return self._openDialogs==[] and super().allClosed()
 
 
     def closeAll(self, onsuccess):
@@ -99,6 +117,7 @@ class DialogManagerMultiple(aqt.DialogManager):
         debug(f"Calling closeAll({onsuccess})")
         def callback():
             """Call onsuccess if all window (except main) are closed."""
+            print(f"Calling callback")
             if self.allClosed():
                 onsuccess()
             else:
@@ -109,16 +128,16 @@ class DialogManagerMultiple(aqt.DialogManager):
             return
 
         # ask all windows to close and await a reply
-        for (name,instances) in self._openDialogs.items():
-            for instance in instances:
-                if isValid(instance):
-                    if getattr(instance, "silentlyClose", False):
-                        instance.close()
-                        callback()
-                    else:
-                        instance.closeWithCallback(callback)
-                
-        
+        # for (name,instances) in self._openDialogs.items():
+        #     for instance in instances:
+        for instance in self._openDialogs:
+            if not sip.isdeleted(instance):
+                if getattr(instance, "silentlyClose", False):
+                    instance.close()
+                    callback()
+                else:
+                    instance.closeWithCallback(callback)
+                    
         return super().closeAll(onsuccess)
 
 
