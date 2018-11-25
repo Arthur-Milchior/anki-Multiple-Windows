@@ -8,6 +8,9 @@ import aqt
 import sip
 from inspect import stack
 
+from aqt.editcurrent import EditCurrent
+from anki.hooks import remHook
+
 def debug(t):
     #print(t)
     pass
@@ -143,4 +146,8 @@ aqt.DialogManager = DialogManagerMultiple
 aqt.dialogs= DialogManagerMultiple(oldDialog=aqt.dialogs)
 debug("Changing dialog manager")
 
-from aqt.browser import Browser
+oldEditCurrentInit = EditCurrent.__init__
+def newEditCurrentInit(self, mw):
+    oldEditCurrentInit(self,mw)
+    remHook("reset", self.onReset)
+EditCurrent.__init__ = newEditCurrentInit

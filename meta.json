@@ -1,1 +1,1 @@
-{"name": "Opening the same window multiple time", "mod": 1543040548}
+{"name": "Opening the same window multiple time", "mod": 1543040548, "config": {"multiple": {"About": false, "EditCurrent": true, "Preferences": false, "default": true}}}
