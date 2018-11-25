@@ -54,7 +54,6 @@ The most standard windows name are:
 * About
 * Preferences
 ## TODO
-* Allowing multiple edit windows containing different content.
 * Allowing distinct note type in different add windows.
 
 ## Version 2.0
@@ -71,4 +70,3 @@ Original idea by | Webventure, addon number [969743069](https://ankiweb.net/shar
 License     | GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
 Source in   | https://github.com/Arthur-Milchior/anki-Multiple-Windows
 Addon number| [354407385](https://ankiweb.net/shared/info/354407385)
-
