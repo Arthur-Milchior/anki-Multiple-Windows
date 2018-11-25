@@ -53,6 +53,10 @@ The most standard windows name are:
 * DeckStats
 * About
 * Preferences
+
+By default, you can't open the two last ones more than once. Because
+this would make no sens. You can change the configuration if for some
+reason you want to do it.
 ## TODO
 * Allowing distinct note type in different add windows.
 
