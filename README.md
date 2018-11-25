@@ -34,15 +34,20 @@ All opened «AddCards» must have the same note type. This is a big
 restriction, which I hope to be able to solve.
 
 ## Internal
-This add-on redefined aqt.__init__'s class DialogManager. It should
-behave similarly, even if add-on changed it, at least for windows
-which should be open a single time.
-
 This may only works with windows which uses aqt's dialog manager. In
 general, they are big windows, whose have no direct effect on the
 window calling it. I.e. it won't work with a prompt asking you to
 confirm/cancel something, or to say «ok». It should work with the
 browser.
+
+This add-on redefine: 
+* ```aqt.__init__```'s class ```DialogManager```. More precisely, the
+  new class inherits from the last one. When a window may be opened a
+  single time, the former method is called.
+* ```aqt.editcurrent```'s method ```EditCurrent.__init__```. More
+  precisely, the new method call the old method, and then do more
+  things. 
+
 
 
 ## Advice
