@@ -13,6 +13,7 @@ adders.
 May be you want to see multiple time the about window (even if I must
 confess I don't understand why you would want that). Anyway, this
 add-on allow you to open most windows multiple time.
+
 ## Usage
 To open a new window of a kind, just do what you need to open the
 window. 
@@ -20,18 +21,23 @@ window.
 If you want that some kind of window is opened only once, read section
 "configuration"
 
-
-## Configuration
-In the map "multiple", add «, "windowName" : false», where windowName
-is the name of the window you want to see open only once.
-
 ## Warnings
 It may be the case that when you change the configuration about a
 window which is already opened, you'll see a message error. It should
 not create real trouble. Please report otherwise.
 
 All opened «AddCards» must have the same note type. This is a big
-restriction, which I hope to be able to solve.
+restriction, which I hope to be able to solve. See following section
+"Advice" about this fact.
+
+## Advice
+Currently, when you change the note type of an «add cards» windows,
+all types are changed. In order to remove this undesired behavior, you
+should also install Add-On number
+[424778276](https://ankiweb.net/shared/info/424778276). The correction
+belong to another add-on because this problem is not directly related
+to this add-on, but may occur in other cases as well. Creating two
+add-ons allow people to easily choose which behavior they prefer.
 
 ## Internal
 This may only works with windows which uses aqt's dialog manager. In
@@ -50,7 +56,10 @@ This add-on redefine:
 
 
 
-## Advice
+## Configuration
+In the map "multiple", add «, "windowName" : false», where windowName
+is the name of the window you want to see open only once.
+
 The most standard windows name are:
 * AddCards
 * Browser
@@ -62,8 +71,6 @@ The most standard windows name are:
 By default, you can't open the two last ones more than once. Because
 this would make no sens. You can change the configuration if for some
 reason you want to do it.
-## TODO
-* Allowing distinct note type in different add windows.
 
 ## Version 2.0
 Please use add-on [Multiple 'Add' and 'Browser' Windows, with addon
