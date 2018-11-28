@@ -21,23 +21,18 @@ window.
 If you want that some kind of window is opened only once, read section
 "configuration".
 
+## Advice
+Currently, when you change the note type of an «add cards» windows,
+all types are changed. In order to fight this undesired behavior, you
+should also install Add-On number [424778276](https://ankiweb.net/shared/info/424778276)
+
 ## Warnings
 It may be the case that when you change the configuration about a
 window which is already opened, you'll see a message error. It should
 not create real trouble. Please report otherwise.
 
 All opened «AddCards» must have the same note type. This is a big
-restriction, which I hope to be able to solve. See following section
-"Advice" about this fact.
-
-## Advice
-Currently, when you change the note type of an «add cards» windows,
-all types are changed. In order to remove this undesired behavior, you
-should also install Add-On number
-[424778276](https://ankiweb.net/shared/info/424778276). The correction
-belong to another add-on because this problem is not directly related
-to this add-on, but may occur in other cases as well. Creating two
-add-ons allow people to easily choose which behavior they prefer.
+restriction, which I hope to be able to solve.
 
 ## Internal
 This may only works with windows which uses aqt's dialog manager. In
@@ -50,9 +45,9 @@ This add-on redefine:
 * ```aqt.__init__```'s class ```DialogManager```. More precisely, the
   new class inherits from the last one. When a window may be opened a
   single time, the former method is called.
-* ```aqt.editcurrent```'s method ```EditCurrent.__init__```. More
-  precisely, the new method call the old method, and then do more
-  things.
+* ```aqt.editcurrent```'s method ```EditCurrent.onReset``` is
+  redefined. Thus this add-on may be incompatible with other add-on
+  changing this.
 
 
 
