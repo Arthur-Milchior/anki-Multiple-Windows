@@ -5,6 +5,7 @@
 # Feel free to contribute to this code on https://github.com/Arthur-Milchior/anki-Multiple-Windows
 # Add-on number 354407385 https://ankiweb.net/shared/info/354407385
 import aqt
+from aqt import mw, DialogManager
 import sip
 from inspect import stack
 
@@ -21,11 +22,11 @@ def shouldBeMultiple(name):
     Ensure that ["multiple"] exsits in the configuration file. The default value being True.
     """
     debug(f"Calling shouldBeMultiple({name})")
-    userOption = aqt.mw.addonManager.getConfig(__name__)
+    userOption = mw.addonManager.getConfig(__name__)
     if "multiple" not in userOption:
         userOption["multiple"]={"default": True}
         debug(f"""Adding "multiple" to userOption""")
-        aqt.mw.addonManager.writeConfig(__name__,userOption)
+        mw.addonManager.writeConfig(__name__,userOption)
     multipleOption = userOption["multiple"]
     debug(f"""multipleOption is {multipleOption}""")
     if name in multipleOption:
@@ -39,7 +40,7 @@ def shouldBeMultiple(name):
         return  True
 
 
-class DialogManagerMultiple(aqt.DialogManager):
+class DialogManagerMultiple(DialogManager):
     """Associating to a window name a pair (as a list...)
 
     The element associated to WindowName Is composed of:
@@ -50,29 +51,29 @@ class DialogManagerMultiple(aqt.DialogManager):
     # its _dialogs, we have access to it.
 
     # Every method are redefined, they use the parent's method when it makes sens.
-    
+
     def __init__(self,oldDialog=None):
         if oldDialog is not None:
             DialogManagerMultiple._dialogs= oldDialog._dialogs
         super().__init__()
-    
+
     _openDialogs = list()
     def open(self,name,*args):
-        """Open a new window, with name and args. 
-    
+        """Open a new window, with name and args.
+
         Or reopen the window name, if it should be single in the
         config, and is already opened.
         """
         debug(f"Calling open({name},*args)")
         function = self.openMany if shouldBeMultiple(name) else super().open
         return function(name,*args)
-    
+
 
     def openMany(self, name, *args):
         """Open a new window whose kind is name.
 
         keyword arguments:
-        args -- values passed to the opener. 
+        args -- values passed to the opener.
         name -- the name of the window to open
         """
         debug(f"Calling openMany({name},{args})")
@@ -138,7 +139,7 @@ class DialogManagerMultiple(aqt.DialogManager):
                     callback()
                 else:
                     instance.closeWithCallback(callback)
-                    
+
         return super().closeAll(onsuccess)
 
 
