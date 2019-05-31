@@ -7,6 +7,7 @@
 import aqt
 import sip
 from anki.hooks import remHook
+from aqt import DialogManager, mw
 from aqt.editcurrent import EditCurrent
 
 
@@ -15,10 +16,12 @@ def shouldBeMultiple(name):
 
     Ensure that ["multiple"] exsits in the configuration file. The default value being True.
     """
-    userOption = aqt.mw.addonManager.getConfig(__name__)
+    debug(f"Calling shouldBeMultiple({name})")
+    userOption = mw.addonManager.getConfig(__name__)
     if "multiple" not in userOption:
         userOption["multiple"] = {"default": True}
-        aqt.mw.addonManager.writeConfig(__name__, userOption)
+        debug(f"""Adding "multiple" to userOption""")
+        mw.addonManager.writeConfig(__name__, userOption)
     multipleOption = userOption["multiple"]
     if name in multipleOption:
         return multipleOption[name]
@@ -28,7 +31,7 @@ def shouldBeMultiple(name):
         return True
 
 
-class DialogManagerMultiple(aqt.DialogManager):
+class DialogManagerMultiple(DialogManager):
     """Associating to a window name a pair (as a list...)
 
     The element associated to WindowName Is composed of:
@@ -48,7 +51,7 @@ class DialogManagerMultiple(aqt.DialogManager):
     _openDialogs = list()
 
     def open(self, name, *args):
-        """Open a new window, with name and args. 
+        """Open a new window, with name and args.
 
         Or reopen the window name, if it should be single in the
         config, and is already opened.
@@ -60,7 +63,7 @@ class DialogManagerMultiple(aqt.DialogManager):
         """Open a new window whose kind is name.
 
         keyword arguments:
-        args -- values passed to the opener. 
+        args -- values passed to the opener.
         name -- the name of the window to open
         """
         (creator, _) = self._dialogs[name]
@@ -125,19 +128,21 @@ class DialogManagerMultiple(aqt.DialogManager):
 aqt.DialogManager = DialogManagerMultiple
 aqt.dialogs = DialogManagerMultiple(oldDialog=aqt.dialogs)
 
-def onReset(self):
-        # lazy approach for now: throw away edits
-        try:
-            n = self.editor.note
-            n.load()
-        except:
-            # card's been deleted
-            remHook("reset", self.onReset)
-            self.editor.setNote(None)
-            self.mw.reset()
-            aqt.dialogs.markClosed("EditCurrent")
-            self.close()
-            return
-        self.editor.setNote(n)
 
-EditCurrent.onReset=onReset
+def onReset(self):
+    # lazy approach for now: throw away edits
+    try:
+        n = self.editor.note
+        n.load()
+    except:
+        # card's been deleted
+        remHook("reset", self.onReset)
+        self.editor.setNote(None)
+        self.mw.reset()
+        aqt.dialogs.markClosed("EditCurrent")
+        self.close()
+        return
+    self.editor.setNote(n)
+
+
+EditCurrent.onReset = onReset
