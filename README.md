@@ -16,7 +16,7 @@ add-on allow you to open most windows multiple time.
 
 ## Usage
 To open a new window of a kind, just do what you need to open the
-window. 
+window.
 
 If you want that some kind of window is opened only once, read section
 "configuration"
@@ -41,11 +41,11 @@ window calling it. I.e. it won't work with a prompt asking you to
 confirm/cancel something, or to say «ok». It should work with the
 browser.
 
-This add-on redefine: 
-* ```aqt.__init__```'s class ```DialogManager```. More precisely, the
+This add-on redefine:
+* `aqt.__init__`'s class `DialogManager`. More precisely, the
   new class inherits from the last one. When a window may be opened a
   single time, the former method is called.
-* ```aqt.editcurrent```'s method ```EditCurrent.onReset``` is
+* `aqt.editcurrent`'s method `EditCurrent.onReset` is
   redefined. Thus this add-on may be incompatible with other add-on
   changing this.
 
