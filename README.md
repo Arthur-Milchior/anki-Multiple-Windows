@@ -42,10 +42,10 @@ confirm/cancel something, or to say «ok». It should work with the
 browser.
 
 This add-on redefine:
-* ```aqt.__init__```'s class ```DialogManager```. More precisely, the
+* `aqt.__init__`'s class `DialogManager`. More precisely, the
   new class inherits from the last one. When a window may be opened a
   single time, the former method is called.
-* ```aqt.editcurrent```'s method ```EditCurrent.onReset``` is
+* `aqt.editcurrent`'s method `EditCurrent.onReset` is
   redefined. Thus this add-on may be incompatible with other add-on
   changing this.
 
