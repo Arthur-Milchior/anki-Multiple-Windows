@@ -4,13 +4,14 @@
 # License: GNU GPL, version 3 or later; http://www.gnu.org/copyleft/gpl.html
 # Feel free to contribute to this code on https://github.com/Arthur-Milchior/anki-Multiple-Windows
 # Add-on number 354407385 https://ankiweb.net/shared/info/354407385
-import aqt
-from aqt import mw, DialogManager
-import sip
 from inspect import stack
 
-from aqt.editcurrent import EditCurrent
+import aqt
+import sip
 from anki.hooks import remHook
+from aqt import DialogManager, mw
+from aqt.editcurrent import EditCurrent
+
 
 def debug(t):
     #print(t)
@@ -58,18 +59,18 @@ class DialogManagerMultiple(DialogManager):
         super().__init__()
 
     _openDialogs = list()
-    def open(self,name,*args):
+    def open(self,name,*args, **kwargs):
         """Open a new window, with name and args.
 
         Or reopen the window name, if it should be single in the
         config, and is already opened.
         """
-        debug(f"Calling open({name},*args)")
+        debug(f"Calling open({name},*args, **kwargs)")
         function = self.openMany if shouldBeMultiple(name) else super().open
-        return function(name,*args)
+        return function(name,*args, **kwargs)
 
 
-    def openMany(self, name, *args):
+    def openMany(self, name, *args, **kwargs):
         """Open a new window whose kind is name.
 
         keyword arguments:
@@ -78,7 +79,7 @@ class DialogManagerMultiple(DialogManager):
         """
         debug(f"Calling openMany({name},{args})")
         (creator, _) = self._dialogs[name]
-        instance = creator(*args)
+        instance = creator(*args, **kwargs)
         self._openDialogs.append(instance)
         return instance
 
