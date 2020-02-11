@@ -146,21 +146,3 @@ class DialogManagerMultiple(DialogManager):
 
 aqt.DialogManager = DialogManagerMultiple
 aqt.dialogs= DialogManagerMultiple(oldDialog=aqt.dialogs)
-debug("Changing dialog manager")
-
-def onReset(self):
-        # lazy approach for now: throw away edits
-        try:
-            n = self.editor.note
-            n.load()
-        except:
-            # card's been deleted
-            remHook("reset", self.onReset)
-            self.editor.setNote(None)
-            self.mw.reset()
-            aqt.dialogs.markClosed("EditCurrent")
-            self.close()
-            return
-        self.editor.setNote(n)
-
-EditCurrent.onReset=onReset
