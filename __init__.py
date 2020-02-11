@@ -18,11 +18,9 @@ def shouldBeMultiple(name):
 
     Ensure that ["multiple"] exsits in the configuration file. The default value being True.
     """
-    debug(f"Calling shouldBeMultiple({name})")
     userOption = mw.addonManager.getConfig(__name__)
     if "multiple" not in userOption:
         userOption["multiple"] = {"default": True}
-        debug(f"""Adding "multiple" to userOption""")
         mw.addonManager.writeConfig(__name__, userOption)
     multipleOption = userOption["multiple"]
     if name in multipleOption:
@@ -58,7 +56,6 @@ class DialogManagerMultiple(DialogManager):
         Or reopen the window name, if it should be single in the
         config, and is already opened.
         """
-        debug(f"Calling open({name},*args, **kwargs)")
         function = self.openMany if shouldBeMultiple(name) else super().open
         return function(name, *args, **kwargs)
 
@@ -104,7 +101,6 @@ class DialogManagerMultiple(DialogManager):
         Keyword arguments:
         onsuccess -- the function to call when the last window is closed.
         """
-
         def callback():
             """Call onsuccess if all window (except main) are closed."""
             if self.allClosed():
@@ -129,4 +125,4 @@ class DialogManagerMultiple(DialogManager):
 
 
 aqt.DialogManager = DialogManagerMultiple
-aqt.dialogs= DialogManagerMultiple(oldDialog=aqt.dialogs)
+aqt.dialogs = DialogManagerMultiple(oldDialog=aqt.dialogs)
