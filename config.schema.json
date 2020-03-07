@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Opening the same window multiple time",
+
+  "type": "object",
+  "properties": {
+    "multiple": {
+      "type": "object",
+      "properties": {
+        "default": {
+          "title": "Default",
+          "description": "If no other indication, whether to allow multiple window",
+          "type": "boolean",
+          "default": true
+        },
+        "AddCards": {
+          "title": "AddCards",
+          "description": "Opening multiple time the Add Cards window",
+          "type": "boolean",
+          "default": true
+        },
+        "Browser": {
+          "title": "Browser",
+          "description": "Opening multiple time the card browser window",
+          "type": "boolean",
+          "default": true
+        },
+        "EditCurrent": {
+          "title": "Browser",
+          "description": "Opening multiple time the Edit Note window",
+          "type": "boolean",
+          "default": true
+        },
+        "About": {
+          "title": "About",
+          "description": "Opening multiple time the About window",
+          "type": "boolean",
+          "default": false
+        },
+        "DeckStats": {
+          "title": "Deck stats",
+          "description": "Opening multiple time the Deck Statistics window",
+          "type": "boolean",
+          "default": false
+        },
+        "Preferences": {
+          "title": "Preferences",
+          "description": "Opening multiple time the Preferences window",
+          "type": "boolean",
+          "default": false
+        },
+        "additionalProperties": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    }
+  }
+}
