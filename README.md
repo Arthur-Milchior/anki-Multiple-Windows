@@ -40,9 +40,6 @@ It may be the case that when you change the configuration about a
 window which is already opened, you'll see a message error. It should
 not create real trouble. Please report otherwise.
 
-All opened «AddCards» must have the same note type. This is a big
-restriction, which I hope to be able to solve.
-
 ## Internal
 This may only works with windows which uses aqt's dialog manager. In
 general, they are big windows, whose have no direct effect on the
