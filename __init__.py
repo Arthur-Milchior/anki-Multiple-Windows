@@ -43,13 +43,15 @@ class DialogManagerMultiple(DialogManager):
 
     # Every method are redefined, they use the parent's method when it makes sens.
 
+    _openDialogs = list()
+
+# init
     def __init__(self, oldDialog=None):
         if oldDialog is not None:
             DialogManagerMultiple._dialogs = oldDialog._dialogs
         super().__init__()
 
-    _openDialogs = list()
-
+# open
     def open(self, name, *args, **kwargs):
         """Open a new window, with name and args.
 
@@ -59,6 +61,7 @@ class DialogManagerMultiple(DialogManager):
         function = self.openMany if shouldBeMultiple(name) else super().open
         return function(name, *args, **kwargs)
 
+# openMany
     def openMany(self, name, *args, **kwargs):
         """Open a new window whose kind is name.
 
@@ -71,11 +74,13 @@ class DialogManagerMultiple(DialogManager):
         self._openDialogs.append(instance)
         return instance
 
+# markClosedMultiple
     def markClosedMultiple(self):
         caller = stack()[2].frame.f_locals['self']
         if caller in self._openDialogs:
             self._openDialogs.remove(caller)
 
+# markClosed
     def markClosed(self, name):
         """Remove the window of windowName from the set of windows. """
         # If it is a window of kind single, then call super
@@ -85,6 +90,7 @@ class DialogManagerMultiple(DialogManager):
         else:
             super().markClosed(name)
 
+# allClosed
     def allClosed(self):
         """
         Whether all windows (except the main window) are marked as
@@ -92,6 +98,7 @@ class DialogManagerMultiple(DialogManager):
         """
         return self._openDialogs == [] and super().allClosed()
 
+# closeAll
     def closeAll(self, onsuccess):
         """Close all windows (except the main one). Call onsuccess when it's done.
 
