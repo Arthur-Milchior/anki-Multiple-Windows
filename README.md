@@ -22,17 +22,23 @@ If you want that some kind of window is opened only once, read section
 "configuration".
 
 ## Advice
+### Add Cards
 Currently, when you change the note type of an «add cards» windows,
 all types are changed. In order to fight this undesired behavior, you
 should also install Add-On number [424778276](https://ankiweb.net/shared/info/424778276)
+
+### Browser's column
+The list of column used in the browser are saved when the browser closed. It means that when you open a browser, it will have the same column as the last browser window you closed. So:
+1. if you care about which column you have, pay attention to the order in which you close your window. Be sure that the last browser closed is the one you want to save
+2. If you want that all browsers have the same columns, put those columns, close the browser, and then open as many browser as you want.
+
+I do realize that this rule is a little strange; it was created assuming there is a single browser, and I prefer not to change it.
+
 
 ## Warnings
 It may be the case that when you change the configuration about a
 window which is already opened, you'll see a message error. It should
 not create real trouble. Please report otherwise.
-
-All opened «AddCards» must have the same note type. This is a big
-restriction, which I hope to be able to solve.
 
 ## Internal
 This may only works with windows which uses aqt's dialog manager. In
