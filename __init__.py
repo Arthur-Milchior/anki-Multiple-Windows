@@ -7,7 +7,8 @@
 from inspect import stack
 
 import aqt
-import sip
+if aqt.qt.qtmajor == 5:
+    import sip
 from anki.hooks import remHook
 from aqt import DialogManager, mw
 from aqt.editcurrent import EditCurrent
@@ -120,7 +121,7 @@ def closeAll(self, onsuccess):
 
     for instance in self._openDialogs:
         # It should be useless. I prefer to keep it to avoid erros
-        if not sip.isdeleted(instance):
+        if aqt.qt.qtmajor == 5 and not sip.isdeleted(instance):
             if getattr(instance, "silentlyClose", False):
                 instance.close()
                 callback()
